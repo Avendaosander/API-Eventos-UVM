@@ -5,7 +5,6 @@ const path = require('path');
 const storage = multer.diskStorage({
    destination: path.join(__dirname, '../uploadsImages'),
    filename: (req, file, cb) => {
-      // console.log(file)
       if (!file.originalname) {
          cb(new Error('Debes agregar una imagen'));
       }

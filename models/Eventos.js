@@ -12,8 +12,8 @@ const eventosSchema = new Schema({
       required: true
    },
    imagen: {
-      type: String,
-      default: null,
+      public_id: String,
+      secure_url: String,
    },
    titulo: {
       type: String,
@@ -63,12 +63,12 @@ const eventosSchema = new Schema({
    asistencia: {
       type: Array,
       default: []
+   },
+   createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "Admins",
+      required: true
    }
-   // createdBy: {
-   //    type: Schema.Types.ObjectId,
-   //    ref: "Admins",
-   //    required: true
-   // }
 });
 
 const Franelas = mongoose.model('Eventos', eventosSchema);

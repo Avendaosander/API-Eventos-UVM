@@ -1,19 +1,29 @@
+const Admins = require('../models/Admins')
 const Users = require('../models/Users')
-const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
-// (Opcional)
-const home = (req, res) => {
-   res.status(200).send('Bienvenido/a al sitio de eventos de la Universidad Valle del Momboy')
+// Valida el usuario por email que sea unico y lo guarda en la BD
+const registerAdmin = async (req, res) => {
+   const { email, password, rol } = req.body;
+   try {
+      let admin = await Admins.findOne({ email });
+      // console.log(admin);
+      if (admin) throw new Error('Ya existe este administrador');
+      
+      admin = new Admins({email, password, rol});
+      // console.log(admin);
+      await admin.save();
+
+      return res.status(200).json({creado: true});
+
+   } catch (error) {
+      // console.log(error.message);
+      return res.status(404).json({messageError: error.message});
+   }
 }
 
 // Valida el usuario por email que sea unico y lo guarda en la BD
 const register = async (req, res) => {
-   const errors = validationResult(req)
-   if(!errors.isEmpty()) {
-      const validateErrors = errors.array();
-      return res.status(404).json({messageError: validateErrors})
-   }
    const { email, password, rol } = req.body;
    try {
       let user = await Users.findOne({ email });
@@ -38,11 +48,6 @@ const register = async (req, res) => {
 
 // Valida que el email existe y que la contraseña sea correcta
 const login = async (req, res) => {
-   const errors = validationResult(req)
-   if(!errors.isEmpty()) {
-      const validateErrors = errors.array();
-      return res.status(404).json({messageError: validateErrors})
-   }
    const { email, password } = req.body;
    try {
       let user = await Users.findOne({email});
@@ -68,8 +73,8 @@ const logout = (req, res) => {
 }
 
 module.exports = {
-   home,
    login,
+   registerAdmin,
    register,
    logout
 };

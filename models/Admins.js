@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { Schema } = require('mongoose');
 
-const userSchema = new Schema({
+const adminSchema = new Schema({
    imgPerfil: { 
       type: String,
       default: null
@@ -17,6 +17,10 @@ const userSchema = new Schema({
    },
    edad: { 
       type: Number,
+      default: null
+   },
+   biografia: { 
+      type: String,
       default: null
    },
    telefono: { 
@@ -40,14 +44,10 @@ const userSchema = new Schema({
    favorites: [{
       type: Schema.Types.ObjectId,
       ref: 'Eventos'
-   }],
-   confirmEvent: {
-      type: Array,
-      default: []
-   }
+   }]
 });
 
-userSchema.pre('save', async function(next){
+adminSchema.pre('save', async function(next){
    const user = this;
    if(!user.isModified('password')) return next
 
@@ -64,9 +64,9 @@ userSchema.pre('save', async function(next){
    }
 })
 
-userSchema.methods.comparePassword = async function(confirmPassword){
+adminSchema.methods.comparePassword = async function(confirmPassword){
    return await bcrypt.compare(confirmPassword, this.password)
 }
 
-const Users = mongoose.model('Users', userSchema);
-module.exports = Users;
+const Admins = mongoose.model('Admins', adminSchema);
+module.exports = Admins;
