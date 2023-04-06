@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 
 // Valida el usuario por email que sea unico y lo guarda en la BD
 const registerAdmin = async (req, res) => {
-   const { email, password, rol } = req.body;
    try {
+      const { email, password, rol } = req.body;
       let admin = await Admins.findOne({ email });
       // console.log(admin);
       if (admin) throw new Error('Ya existe este administrador');
@@ -24,8 +24,8 @@ const registerAdmin = async (req, res) => {
 
 // Valida el usuario por email que sea unico y lo guarda en la BD
 const register = async (req, res) => {
-   const { email, password, rol } = req.body;
    try {
+      const { email, password, rol } = req.body;
       let user = await Users.findOne({ email });
       // console.log(user);
       if (user) throw new Error('Ya existe este usuario');

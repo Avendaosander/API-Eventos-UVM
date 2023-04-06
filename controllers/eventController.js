@@ -4,8 +4,8 @@ var fs = require('fs-extra');
 
 // Trae un evento por ID
 const event = async (req, res) => {
-   const {eventID} = req.params;
    try {
+      const {eventID} = req.params;
       const evento = await Eventos.findById(eventID).lean();
       // console.log(evento);
       return res.status(200).json({evento});
@@ -17,14 +17,14 @@ const event = async (req, res) => {
 
 // Valida los campos y devuelve el evento
 const createEvent = async (req, res) => {
-   if (!req.file) {
-      return res.status(400).json({messageError: 'Debes agregar una imagen del evento'})
-   }
-   const { path } = req.file;
-   const userID = req.params
-
-   const { organizador, participantes, titulo, descripcion, keywords, tipo, facultad, categoria, fecha, hora, lugar } = req.body;
    try {
+      if (!req.file) {
+         throw new Error ('Debes agregar una imagen del evento')
+      }
+      const { path } = req.file;
+      const userID = req.params
+   
+      const { organizador, participantes, titulo, descripcion, keywords, tipo, facultad, categoria, fecha, hora, lugar } = req.body;
       let evento = await Eventos.findOne({ titulo });
       // console.log(evento);
       if (evento) throw new Error('Ya existe este titulo de evento');
@@ -49,16 +49,16 @@ const createEvent = async (req, res) => {
 
 // Valida los campos y modifica el evento
 const updateEvent = async (req, res) => {
-   let path;
-   if (!!req.file) {
-      console.log(`Se guardara el archivo: ${req.file.path}`);
-      path = req.file.path;
-   }
-
-   const { eventID } = req.params;
-   const update = req.body;
-
    try {
+      let path;
+      if (!!req.file) {
+         // console.log(`Se guardara el archivo: ${req.file.path}`);
+         path = req.file.path;
+      }
+   
+      const { eventID } = req.params;
+      const update = req.body;
+
       if (path !== undefined) {
          let evento = await Eventos.findById(eventID)
          await deleteImage(evento.imagen.public_id)
@@ -78,8 +78,8 @@ const updateEvent = async (req, res) => {
 
 // Elima un evento por ID
 const deleteEvent = async (req, res) => {
-   const { eventID } = req.params;
    try {
+      const { eventID } = req.params;
       const evento = await Eventos.findByIdAndDelete(eventID)
 
       if (!evento) throw new Error('Este evento no existe')

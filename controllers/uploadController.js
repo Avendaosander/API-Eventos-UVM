@@ -5,11 +5,15 @@ const path = require('path');
 const storage = multer.diskStorage({
    destination: path.join(__dirname, '../uploadsImages'),
    filename: (req, file, cb) => {
-      if (!file.originalname) {
-         cb(new Error('Debes agregar una imagen'));
+      try {
+         if (!file.originalname) {
+            throw new Error('Debes agregar una imagen');
+         }
+   
+         cb(null, `${Date.now()}-${file.originalname}`);
+      } catch (error) {
+         cb(new Error(error.message));
       }
-
-      cb(null, `${Date.now()}-${file.originalname}`);
    },
 })
 
