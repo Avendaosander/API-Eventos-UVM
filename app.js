@@ -1,5 +1,6 @@
 const express = require('express')
-const routerAuth = require("./routes/routerAuth");
+const userRoutes=require('./routes/user')
+const authRoutes=require('./routes/auth')
 const routerApp = require("./routes/routerApp");
 const routerEvents = require("./routes/routerEvents");
 const path = require("path");
@@ -46,9 +47,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/documentacion", swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerJSDoc(swaggerSpec)));
 
 // Routes
-app.use("/", routerAuth);
 app.use("/app", routerApp);
 app.use("/events", routerEvents);
+app.use("/api/users", userRoutes)
+app.use("/api/auth", authRoutes)
 // app.use(express.static(path.join(__dirname, 'public')));
 
 module.exports = app;
