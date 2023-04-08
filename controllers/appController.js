@@ -2,6 +2,7 @@ const Users = require('../models/Users')
 const Eventos = require('../models/Eventos')
 const dayjs = require('dayjs')
 const { uploadImage, deleteImage } = require('../utils/cloudinary');
+var fs = require('fs-extra');
 
 const fechaActual = dayjs(new Date()).format('YYYY-MM-DD')
 const horaActual = dayjs(new Date()).format('HH:mm')
@@ -43,13 +44,13 @@ const home = async (req, res) => {
 // Trae todos los eventos proximos a la fecha actual
 const dashboard = async (req, res) => {
    try {
-      const evento = await Eventos.find()
+      const eventos = await Eventos.find()
          .gt('fecha', fechaActual)
          .sort({fecha: 1})
          .lean();
       
       // console.log(evento);
-      res.status(200).json({evento})
+      res.status(200).json({eventos})
    } catch (error) {
       res.status(404).json({messageError: error.message})
    }
@@ -140,20 +141,20 @@ const updateUser = async (req, res) => {
       
       if (path !== undefined) {
          let user = await Users.findById(userID)
-         await deleteImage(user.imagen.public_id)
+         if(user.imgPerfil !== null) await deleteImage(user.imgPerfil.public_id)
          const result = await uploadImage(path)
          await fs.unlink(path)
-         update.imagen = {public_id: result.public_id, secure_url: result.secure_url}
+         update.imgPerfil = {public_id: result.public_id, secure_url: result.secure_url}
          user = await Users.findByIdAndUpdate(userID, update, {new: true})
          // console.log(user);
-         res.status(200).json({user})
+         return res.status(200).json({user})
       }
       
       const user = await Users.findByIdAndUpdate(userID, update, {new: true})
       // console.log(user);
-      res.status(200).json({user})
+      return res.status(200).json({user})
    } catch (error) {
-      res.status(404).json({messageError: error.message})
+      return res.status(404).json({messageError: error.message})
    }
 }
 

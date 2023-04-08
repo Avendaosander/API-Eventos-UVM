@@ -3,8 +3,15 @@ const bcrypt = require('bcryptjs');
 const { Schema } = require('mongoose');
 
 const userSchema = new Schema({
-   imgPerfil: { 
+   username: {
       type: String,
+      required: true,
+      unique: true
+   },
+   imgPerfil: {
+      type: Object,
+      public_id: String,
+      secure_url: String,
       default: null
    },
    nombre: { 

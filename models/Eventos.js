@@ -12,8 +12,10 @@ const eventosSchema = new Schema({
       required: true
    },
    imagen: {
+      type: Object,
       public_id: String,
       secure_url: String,
+      default: null
    },
    titulo: {
       type: String,
@@ -66,7 +68,7 @@ const eventosSchema = new Schema({
    },
    createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "Admins",
+      ref: "Users",
       required: true
    }
 });

@@ -25,6 +25,6 @@ router.get('/my-events/:adminID', misEventos)
 router.get('/profile/:userID', profile)
 
 // Modifica el usuario segun ID
-router.post('/update-profile/:userID', upload.single('imagen'), updateUser)
+router.post('/update-profile/:userID', upload.single('imgPerfil'), updateUser)
 
 module.exports = router

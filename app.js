@@ -21,19 +21,20 @@ const swaggerUiExpress = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerSpec = {
    definition: {
-      openapi: "3.1.0",
+      openapi: "3.0.0",
       info: {
-         title: "API Events UVM Documentation",
+         title: "API Eventos UVM Documentación",
          version: "1.0.0"
       },
       servers: [
          {
-            url: "http://localhost:3000"
-         }
-      ]
+            url: `http://localhost:${process.env.PORT}`,
+            description: "API Eventos UVM Servidor de Desarrollo",
+         },
+      ],
    },
-   apis: [`${path.join(__dirname,"./routes/*.js")}`]
-}
+   apis: [`${path.join(__dirname, "./Documentation/Doc.js")}`],
+};
 
 // Settings
 const app = express();
@@ -43,7 +44,11 @@ app.use(morgan('dev'));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/documentacion", swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerJSDoc(swaggerSpec)));
+app.use(
+   "/documentacion",
+   swaggerUiExpress.serve,
+   swaggerUiExpress.setup(swaggerJSDoc(swaggerSpec))
+);
 
 // Routes
 app.use("/", routerAuth);
