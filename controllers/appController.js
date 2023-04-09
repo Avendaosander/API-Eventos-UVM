@@ -110,7 +110,7 @@ const favorites = async (req, res) => {
       const {userID} = req.params
       const user = await Users.findOne({_id: userID}).populate('favorites')
       // console.log(user)
-      res.status(200).json({eventos: user})
+      res.status(200).json({eventos: user.favorites})
    } catch (error) {
       res.status(404).json({messageError: error.message})
    }

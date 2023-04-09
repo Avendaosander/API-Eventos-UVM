@@ -5,9 +5,13 @@ const jwt = require('jsonwebtoken');
 const registerAdmin = async (req, res) => {
    try {
       const { username, email, password, rol } = req.body;
-      let admin = await Users.findOne({ email });
+      let admin = await Users.findOne({ $or:[ {username}, {email} ] });
       // console.log(admin);
-      if (admin) throw new Error('Ya existe este administrador');
+      if (admin) {
+         if (admin.username === username) throw new Error('Este nombre de usuario ya esta en uso');
+         if (admin.email === email) throw new Error('Este correo ya esta en uso');
+      }
+      if (rol !== 'Admin') throw new Error('Rol invalido');
       
       admin = new Users({username, email, password, rol});
       // console.log(admin);
@@ -24,23 +28,26 @@ const registerAdmin = async (req, res) => {
 // Valida el usuario por email que sea unico y lo guarda en la BD
 const register = async (req, res) => {
    try {
-      const { username, email, password, rol } = req.body;
-      let user = await Users.findOne({ email });
+      const { username, email, password } = req.body;
+      let user = await Users.findOne({ $or:[ {username}, {email} ] });
       // console.log(user);
-      if (user) throw new Error('Ya existe este usuario');
+      if (user) {
+         if (user.username === username) throw new Error('Este nombre de usuario ya esta en uso');
+         if (user.email === email) throw new Error('Este correo ya esta en uso');
+      }
       
-      user = new Users({username, email, password, rol});
+      user = new Users({username, email, password});
       // console.log(user);
       await user.save();
 
       const token = jwt.sign({id: user._id}, process.env.SECRETTK, {
-         expiresIn: '5m'
+         expiresIn: '30m'
       })
 
-      return res.status(200).json({verificado: true, token});
+      return res.status(200).json({token});
 
    } catch (error) {
-      // console.log(error.message);
+      console.log(error.message);
       return res.status(404).json({messageError: error.message});
    }
 }
@@ -56,10 +63,10 @@ const login = async (req, res) => {
       if(!(await user.comparePassword(password))) throw new Error('La contraseña no es correcta');
       
       const token = jwt.sign({id: user._id}, process.env.SECRETTK, {
-         expiresIn: '5m'
+         expiresIn: '30m'
       })
 
-      return res.status(200).json({verificado: true, token});
+      return res.status(200).json({token});
    } catch (error) {
       return res.status(404).json({messageError: error.message});
    }

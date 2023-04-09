@@ -22,6 +22,10 @@ const userSchema = new Schema({
       type: String,
       default: null
    },
+   biografia: { 
+      type: String,
+      default: null
+   },
    edad: { 
       type: Number,
       default: null
@@ -42,6 +46,7 @@ const userSchema = new Schema({
    },
    rol: {
       type: String,
+      default: 'User',
       required: true
    },
    favorites: [{
