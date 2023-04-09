@@ -1,4 +1,4 @@
-const TypeEvents = require('../models/TypeEvents')
+const TypeEvents = require("../models/TypeEvents");
 
 function addTypeEvent() {
    TypeEvents.insertMany([
@@ -16,6 +16,27 @@ function addTypeEvent() {
       },
       {
          "name": "Dinámica",
+      },
+      {
+         "name": "Encuesta",
+      },
+      {
+         "name": "Chats",
+      },
+      {
+         "name": "Juegos Interactivos",
+      },
+      {
+         "name": "Stand Virtual",
+      },
+      {
+         "name": "Streaming",
+      },
+      {
+         "name": "Aula Virtual",
+      },
+      {
+         "name": "Taller",
       }
    ]);
 }

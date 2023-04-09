@@ -1,4 +1,4 @@
-const Categorias = require('../models/Categorias')
+const Categorias = require("../models/Categorias");
 
 function addCategoria() {
    Categorias.insertMany([
@@ -9,13 +9,49 @@ function addCategoria() {
          "name": "Industrial",
       },
       {
-         "name": "Administración",
+         "name": "Administracion",
       },
       {
-         "name": "Contaduría",
+         "name": "Contaduria",
+      },
+      {
+         "name": "Robotica",
       },
       {
          "name": "Derecho",
+      },
+      {
+         "name": "Matemática",
+      },
+      {
+         "name": "Humanitas",
+      },
+      {
+         "name": "Lógica",
+      },
+      {
+         "name": "Electricidad",
+      },
+      {
+         "name": "Física",
+      },
+      {
+         "name": "Estadística",
+      },
+      {
+         "name": "Programación",
+      },
+      {
+         "name": "Química",
+      },
+      {
+         "name": "Mecanica",
+      },
+      {
+         "name": "Termodinámica",
+      },
+      {
+         "name": "Íngles",
       }
    ]);
 }
