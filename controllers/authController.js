@@ -44,7 +44,16 @@ const register = async (req, res) => {
          expiresIn: '30m'
       })
 
-      return res.status(200).json({token});
+      let img = user.imgPerfil ? user.imgPerfil.secure_url : null
+
+      return res.status(200).json({
+         token,
+         user: {
+            id: user._id,
+            imgPerfil: img,
+            rol: user.rol
+         }
+      });
 
    } catch (error) {
       console.log(error.message);
@@ -66,7 +75,17 @@ const login = async (req, res) => {
          expiresIn: '30m'
       })
 
-      return res.status(200).json({token});
+      let img = user.imgPerfil ? user.imgPerfil.secure_url : null
+      
+      return res.status(200).json({
+         token,
+         user: {
+            id: user._id,
+            imgPerfil: img,
+            favorites: user.favorites,
+            rol: user.rol
+         }
+      });
    } catch (error) {
       return res.status(404).json({messageError: error.message});
    }
