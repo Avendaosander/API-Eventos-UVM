@@ -1,5 +1,4 @@
 const express = require('express');
-// const { body } = require('express-validator')
 const { event, createEvent, updateEvent, deleteEvent } = require('../controllers/eventController')
 const { upload } = require('../controllers/uploadController');
 
@@ -15,6 +14,6 @@ router.post('/create-event/:userID', upload.single('imagen'), createEvent)
 router.post('/update-event/:eventID', upload.single('imagen'), updateEvent)
 
 // Elimina un evento
-router.get('/delete-event/:eventID', deleteEvent)
+router.post('/delete-event/:eventID', deleteEvent)
 
 module.exports = router

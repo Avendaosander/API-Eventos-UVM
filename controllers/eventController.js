@@ -1,3 +1,4 @@
+const Users = require('../models/Users')
 const Eventos = require('../models/Eventos')
 const { uploadImage, deleteImage } = require('../utils/cloudinary');
 var fs = require('fs-extra');
@@ -10,7 +11,7 @@ const event = async (req, res) => {
       // console.log(evento);
       return res.status(200).json({evento});
    } catch (error) {
-      console.log(error);
+      // console.log(error);
       return res.status(404).json({messageError: error.message});
    }
 }
@@ -80,11 +81,14 @@ const updateEvent = async (req, res) => {
 const deleteEvent = async (req, res) => {
    try {
       const { eventID } = req.params;
+      const { userID } = req.body;
       const evento = await Eventos.findByIdAndDelete(eventID)
 
       if (!evento) throw new Error('Este evento no existe')
 
       await deleteImage(evento.imagen.public_id)
+      await Users.updateOne({ _id: userID }, {$pull: {favorites: {$in: [eventID]}}})
+      // await Users.updateOne({ _id: userID }, {$pull: {confirmEvent: {$in: [eventID]}}})
 
       res.status(200).json({eliminado: true})
    } catch (error) {

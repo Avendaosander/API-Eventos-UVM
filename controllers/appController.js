@@ -60,7 +60,7 @@ const dashboard = async (req, res) => {
 const filterTo = async (req, res) => {
    try {
       const filter = req.body
-      const eventos = await Eventos.find(filter)
+      const eventos = await Eventos.find(filter).lean();
       // console.log(eventos);
       res.status(200).json({eventos})
    } catch (error) {
@@ -81,7 +81,7 @@ const misEventos = async (req, res) => {
 }
 
 // Si encuentra el evento entre sus favoritos lo borra y si no lo encuentra lo agrega
-const aggFavorites = async (req, res) => {
+const toggleFavorites = async (req, res) => {
    try {
       const { eventID } = req.params
       const { userID } = req.body
@@ -108,7 +108,7 @@ const aggFavorites = async (req, res) => {
 const favorites = async (req, res) => {
    try {
       const {userID} = req.params
-      const user = await Users.findOne({_id: userID}).populate('favorites')
+      const user = await Users.findOne({_id: userID}).populate('favorites').lean();
       // console.log(user)
       res.status(200).json({eventos: user.favorites})
    } catch (error) {
@@ -120,7 +120,7 @@ const favorites = async (req, res) => {
 const profile = async (req, res) => {
    try {
       const { userID } = req.params
-      const user = await Users.findById(userID)
+      const user = await Users.findById(userID).lean();
       // console.log(user);
       res.status(200).json({user})
    } catch (error) {
@@ -145,16 +145,16 @@ const updateUser = async (req, res) => {
          const result = await uploadImage(path)
          await fs.unlink(path)
          update.imgPerfil = {public_id: result.public_id, secure_url: result.secure_url}
-         user = await Users.findByIdAndUpdate(userID, update, {new: true})
+         user = await Users.findByIdAndUpdate(userID, update, {new: true}).lean()
          // console.log(user);
          return res.status(200).json({user})
       }
       
-      const user = await Users.findByIdAndUpdate(userID, update, {new: true})
+      const user = await Users.findByIdAndUpdate(userID, update, {new: true}).lean();
       // console.log(user);
       return res.status(200).json({user})
    } catch (error) {
-      return res.status(404).json({messageError: error.message})
+      res.status(404).json({messageError: error.message})
    }
 }
 
@@ -162,7 +162,7 @@ module.exports = {
    home,
    dashboard,
    filterTo,
-   aggFavorites,
+   toggleFavorites,
    favorites,
    misEventos,
    profile,

@@ -199,7 +199,7 @@ function addEvents() {
          tipo: ['Chats'],
          categoria: ['Humanitas'],
          fecha: '2023-04-24',
-         hora: '06:00',
+         hora: '18:00',
          duracion: '02:00',
          lugar: 'Aula de la Trujillanidad',
          createdBy: '643212eadb112bea4a6cd2a0'
@@ -332,7 +332,7 @@ function addEvents() {
          tipo: ['Chats'],
          categoria: ['Química'],
          fecha: '2023-04-20',
-         hora: '5:00',
+         hora: '05:00',
          duracion: '03:00',
          lugar: 'Aula de la Trujillanidad',
          createdBy: '643212eadb112bea4a6cd2a0'
@@ -444,7 +444,7 @@ function addEvents() {
          tipo: ['Stand Virtual'],
          categoria: ['Programación'],
          fecha: '2023-04-20',
-         hora: '01:00',
+         hora: '13:00',
          duracion: '02:00',
          lugar: 'Aula de la Trujillanidad',
          createdBy: '643212eadb112bea4a6cd2a0'

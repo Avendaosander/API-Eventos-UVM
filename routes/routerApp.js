@@ -1,5 +1,5 @@
 const express = require('express');
-const { dashboard, misEventos, profile, favorites, home, aggFavorites, updateUser, filterTo } = require('../controllers/appController')
+const { dashboard, misEventos, profile, favorites, home, toggleFavorites, updateUser, filterTo } = require('../controllers/appController')
 const { upload } = require('../controllers/uploadController');
 const router = express.Router()
 
@@ -12,8 +12,8 @@ router.get('/events', dashboard)
 // Trae todos los eventos que coincidan con un solo filtro
 router.post('/filters', filterTo)
 
-// Agrega el evento a favoritos del usuario
-router.post('/add-favorite/:eventID', aggFavorites)
+// Cambiar el evento favorito del usuario
+router.post('/toggle-favorite/:eventID', toggleFavorites)
 
 // Trae los eventos favoritos del usuario
 router.get('/favorites/:userID', favorites)
