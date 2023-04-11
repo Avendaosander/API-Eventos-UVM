@@ -1,5 +1,5 @@
 {
-  "name": "aplicacion-de-eventos-uvm",
+  "name": "servidor-de-eventos-uvm",
   "version": "1.0.0",
   "description": "Aplicacion de eventos para la Universidad Valle del Momboy",
   "main": "index.js",
@@ -7,8 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["NodeJS", "MongoDB", "Expressjs", "Cloudinary", "Swagger"],
+  "author": "Alexander Avendaño",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.21"

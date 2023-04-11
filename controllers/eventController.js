@@ -23,8 +23,15 @@ const createEvent = async (req, res) => {
          throw new Error ('Debes agregar una imagen del evento')
       }
       const { path } = req.file;
-      const userID = req.params
-   
+      const { userID } = req.params
+      
+
+      let user = await Users.findById(userID).lean();
+      if (user.rol !== "Admin") {
+         await fs.unlink(path)
+         throw new Error('No tienes permiso para crear un evento');
+      }
+
       const { organizador, participantes, titulo, descripcion, keywords, tipo, facultad, categoria, fecha, hora, lugar } = req.body;
       let evento = await Eventos.findOne({ titulo });
       // console.log(evento);
