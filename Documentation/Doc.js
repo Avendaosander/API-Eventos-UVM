@@ -29,6 +29,40 @@
  * @swagger
  * components:
  *    schemas:
+ *       ResgisterResponse:
+ *          type: object
+ *          properties: 
+ *             token:
+ *                type: string
+ *                description: Token del usuario
+ *                example: "eyJpZCI6IjY0MzIxMmVhZGIxMTJiZWE0YTZjZDJhMCJ9"
+ *             user:
+ *                type: object
+ *                properties: 
+ *                   id: 
+ *                      type: string
+ *                      description: ID del usuario
+ *                      example: "643212eadb112bea4a6cd2a0"
+ *                   imgPerfil: 
+ *                      type: string
+ *                      description: URL del Avatar del usuario
+ *                      example: "https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680901101/Eventos%20UVM/1680901103272-usuario.png"
+ *                   rol: 
+ *                      type: string
+ *                      description: Rol del usuario
+ *                      example: "User"
+ *                required:
+ *                   - id
+ *                   - imgPerfil
+ *                   - rol
+ *          required:
+ *             - token
+ */
+
+/**
+ * @swagger
+ * components:
+ *    schemas:
  *       RegisterAdmin:
  *          type: object
  *          properties:
@@ -59,6 +93,21 @@
  * @swagger
  * components:
  *    schemas:
+ *       ResgisterAdminResponse:
+ *          type: object
+ *          properties: 
+ *             creado:
+ *                type: boolean
+ *                description: Booleano de confirmacion de la peticion
+ *                example: "true"
+ *          required:
+ *             - creado
+ */
+
+/**
+ * @swagger
+ * components:
+ *    schemas:
  *       Login:
  *          type: object
  *          properties:
@@ -79,15 +128,54 @@
  * @swagger
  * components:
  *    schemas:
+ *       LoginResponse:
+ *          type: object
+ *          properties: 
+ *             token:
+ *                type: string
+ *                description: Token del usuario
+ *                example: "eyJpZCI6IjY0MzIxMmVhZGIxMTJiZWE0YTZjZDJhMCJ9"
+ *             user:
+ *                type: object
+ *                properties: 
+ *                   id: 
+ *                      type: string
+ *                      description: ID del usuario
+ *                      example: "643212eadb112bea4a6cd2a0"
+ *                   imgPerfil: 
+ *                      type: string
+ *                      description: URL del Avatar del usuario
+ *                      example: "https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680901101/Eventos%20UVM/1680901103272-usuario.png"
+ *                   favorites: 
+ *                      type: array
+ *                      description: Array con los IDs de los eventos favoridos del usuario
+ *                      example: ["642b0ab52e6b08871274ce20","641ca66ab506d339669a7d0f"]
+ *                   rol: 
+ *                      type: string
+ *                      description: Rol del usuario
+ *                      example: "User"
+ *                required:
+ *                   - id
+ *                   - imgPerfil
+ *                   - favorites
+ *                   - rol
+ *          required:
+ *             - token
+ */
+
+/**
+ * @swagger
+ * components:
+ *    schemas:
  *       Logout:
  *          type: object
  *          properties:
- *             token:
- *                type: string
- *                description: Token de Sesion del Usuario
- *                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MmY0MzRlYmMxMTU5MDBjYzYzYTFjMCIsImlhdCI6MTY4MDgyNjY3NCwiZXhwIjoxNjgwODI2OTc0fQ.XxaXal-HbMEfuCU4XaI022pu5Tdbi8NHHhTbdsMqC1I"
+ *             verificado:
+ *                type: boolean
+ *                description: Estado booleano de la sesion del usuario
+ *                example: "false"
  *          required:
- *             - token
+ *             - verificado
  */
 
 /**
@@ -455,7 +543,7 @@
  *             categoria:
  *                type: string
  *                description: Nombre de la categoria para filtrar 
- *                example: "Computación"
+ *                example: "Computacion"
  *          required:
  *             - categoria
  */
@@ -1220,6 +1308,11 @@
  *       responses:
  *          200:
  *             description: Nuevo Usuario Agregado
+ *             content:  
+ *                application/json:  
+ *                   schema:  
+ *                      type: object  
+ *                      $ref: '#/components/schemas/ResgisterResponse'
  */
 
 /**
@@ -1238,6 +1331,11 @@
  *       responses:
  *          200:
  *             description: Nuevo Administrador Agregado
+ *             content:  
+ *                application/json:  
+ *                   schema:  
+ *                      type: object  
+ *                      $ref: '#/components/schemas/ResgisterAdminResponse'
  */
 
 /**
@@ -1256,6 +1354,11 @@
  *       responses:
  *          200:
  *             description: Inicio de Sesion exitoso
+ *             content:  
+ *                application/json:  
+ *                   schema:  
+ *                      type: object  
+ *                      $ref: '#/components/schemas/LoginResponse'
  */
 
 /**
