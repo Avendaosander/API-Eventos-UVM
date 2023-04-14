@@ -17,6 +17,40 @@ const event = async (req, res) => {
    }
 }
 
+// Si encuentra el ID en confirmEvents y asistencia los borra y si no los encuentra los agrega
+const toggleAsist = async (req, res) => {
+   try {
+      const { userID } = req.params;
+      const { eventID } = req.body;
+      let asist = true
+
+      let evento = await Eventos.findById(eventID).lean()
+      if (!evento) return res.status(404).json({messageError: 'Evento no encontrado'})
+
+      let user = await Users.findById(userID).lean()
+      if (!user) return res.status(404).json({messageError: 'Usuario no encontrado'})
+
+      user = await Users.updateOne({ _id: userID }, {$pull: {confirmEvent: {$in: [eventID]}}})
+      evento = await Eventos.updateOne({ _id: eventID }, {$pull: {asistencia: {$in: [userID]}}})
+   
+      if (user.modifiedCount === 1 && evento.modifiedCount === 1){
+         asist = false
+         // console.log("Se rechazo asistencia al evento")
+         return res.status(200).json({asist})
+      }
+   
+      if (user.modifiedCount !== 1 && evento.modifiedCount !== 1){
+         user = await Users.updateOne({ _id: userID }, {$push: {confirmEvent: eventID}})
+         evento = await Eventos.updateOne({ _id: eventID }, {$push: {asistencia: userID}})
+         // console.log("Se confirmo asistencia al evento")
+         return res.status(200).json({asist})
+      }
+      throw new Error()
+   } catch (error) {
+      return res.status(500).json({messageError: error.message})
+   }
+}
+
 // Valida los campos y devuelve el evento
 const createEvent = async (req, res) => {
    try {
@@ -94,6 +128,7 @@ const deleteEvent = async (req, res) => {
 
 module.exports = {
    event,
+   toggleAsist,
    createEvent,
    updateEvent,
    deleteEvent
