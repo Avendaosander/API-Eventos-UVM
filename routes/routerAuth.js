@@ -5,7 +5,7 @@ const { register, login, logout, registerAdmin } = require('../controllers/authC
 const router = express.Router()
 
 // Registrar Administrador
-router.post('/register-admin', registerAdmin)
+router.post('/register-admin/:adminID', registerAdmin)
 
 // Registrar Usuario
 router.post('/register', register)

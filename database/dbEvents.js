@@ -6,9 +6,9 @@ function addEvents() {
          organizador: 'Brian',
          participantes: ['Roberto', 'Brian'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Titulo para la UVM',
          descripcion: [
@@ -28,9 +28,9 @@ function addEvents() {
          organizador: 'Diego',
          participantes: ['Cheo', 'Ramon'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Titulo para la UVM 2',
          descripcion: [
@@ -50,9 +50,9 @@ function addEvents() {
          organizador: 'Brian',
          participantes: ['Roberto', 'Brian'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Semana Universitaria',
          descripcion: [
@@ -72,9 +72,9 @@ function addEvents() {
          organizador: 'Antonio',
          participantes: ['Francisco', 'Pedro'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Feria de Emprendimiento',
          descripcion: [
@@ -95,9 +95,9 @@ function addEvents() {
          organizador: 'Juan',
          participantes: ['Luis', 'Andres'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Día de la Investigación',
          descripcion: [
@@ -118,9 +118,9 @@ function addEvents() {
          organizador: 'Frank',
          participantes: ['Maria', 'Silvi'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Encuentro de Deportes Universitarios',
          descripcion: [
@@ -141,9 +141,9 @@ function addEvents() {
          organizador: 'Mariangel',
          participantes: ['Patri', 'Juancho'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Festival Cultural Universitario',
          descripcion: [
@@ -163,9 +163,9 @@ function addEvents() {
          organizador: 'Fani',
          participantes: ['Mario', 'Rosario'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Liderazgo Estudiantil',
          descripcion: [
@@ -185,9 +185,9 @@ function addEvents() {
          organizador: 'Levi',
          participantes: ['Gloria', 'Joel'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Congreso de Psicología y Educación',
          descripcion: [
@@ -208,9 +208,9 @@ function addEvents() {
          organizador: 'Eminem',
          participantes: ['Yanira', 'Veronica'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Concurso de Cortometrajes Estudiantiles',
          descripcion: [
@@ -231,9 +231,9 @@ function addEvents() {
          organizador: 'Jose',
          participantes: ['Paul', 'Ender'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Fiesta de la Diversidad Cultural',
          descripcion: [
@@ -253,9 +253,9 @@ function addEvents() {
          organizador: 'Ruben',
          participantes: ['Dario', 'Dana'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Feria de Ciencias y Tecnología',
          descripcion: [
@@ -275,9 +275,9 @@ function addEvents() {
          organizador: 'Anibal',
          participantes: ['Carlos', 'Mariany'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Seminario de Tecnología e Innovación',
          descripcion: [
@@ -297,9 +297,9 @@ function addEvents() {
          organizador: 'Steven',
          participantes: ['Jose Daniel', 'Enyer'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Taller de Habilidades para el Empleo',
          descripcion: [
@@ -319,9 +319,9 @@ function addEvents() {
          organizador: 'Wendy',
          participantes: ['Carlos', 'Torres'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Feria de Voluntariado Universitario',
          descripcion: [
@@ -341,9 +341,9 @@ function addEvents() {
          organizador: 'Isbe',
          participantes: ['Wen', 'Petra'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Jornada de Responsabilidad Social Universitaria',
          descripcion: [
@@ -363,9 +363,9 @@ function addEvents() {
          organizador: 'Manuel',
          participantes: ['Andrea', 'Andreina'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Competencia de robótica y tecnología',
          descripcion: [
@@ -385,9 +385,9 @@ function addEvents() {
          organizador: 'Oriana',
          participantes: ['Yovana', 'Adriana'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo:
             'Feria de intercambio estudiantil y programas de estudio en el extranjero',
@@ -408,9 +408,9 @@ function addEvents() {
          organizador: 'Steph',
          participantes: ['Jean', 'Kyer'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Feria de carreras: descubre tu futuro profesional',
          descripcion: [
@@ -431,9 +431,9 @@ function addEvents() {
          organizador: 'Donald',
          participantes: ['Robert', 'Cristian'],
          imagen: {
-            public_id: 'Eventos UVM/1680542389627-WelcomeUVM',
+            public_id: 'Eventos UVM/1681255708356-WelcomeUVM',
             secure_url:
-               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680542396/Eventos%20UVM/1680542389627-WelcomeUVM.jpg'
+               'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1681255713/Eventos%20UVM/1681255708356-WelcomeUVM.jpg'
          },
          titulo: 'Encuentro de tecnología y diseño en la universidad',
          descripcion: [

@@ -5,23 +5,27 @@ const jwt = require('jsonwebtoken');
 const registerAdmin = async (req, res) => {
    try {
       const { username, email, password, rol } = req.body;
+      const {adminID} = req.params
+
+      const user = await Users.findById(adminID)
+      if(!user) return res.status(404).json({messageError: 'Administrador no encontrado'})
+
       let admin = await Users.findOne({ $or:[ {username}, {email} ] });
       // console.log(admin);
       if (admin) {
-         if (admin.username === username) throw new Error('Este nombre de usuario ya esta en uso');
-         if (admin.email === email) throw new Error('Este correo ya esta en uso');
+         if (admin.username === username) return res.status(404).json({messageError: 'Este nombre de usuario ya esta en uso'});
+         if (admin.email === email) return res.status(404).json({messageError: 'Este correo ya esta en uso'});
       }
-      if (rol !== 'Admin') throw new Error('Rol invalido');
       
       admin = new Users({username, email, password, rol});
       // console.log(admin);
       await admin.save();
 
-      return res.status(200).json({creado: true});
+      return res.status(201).json({creado: true});
 
    } catch (error) {
       // console.log(error.message);
-      return res.status(404).json({messageError: error.message});
+      return res.status(500).json({messageError: error.message});
    }
 }
 
@@ -32,8 +36,8 @@ const register = async (req, res) => {
       let user = await Users.findOne({ $or:[ {username}, {email} ] });
       // console.log(user);
       if (user) {
-         if (user.username === username) throw new Error('Este nombre de usuario ya esta en uso');
-         if (user.email === email) throw new Error('Este correo ya esta en uso');
+         if (admin.username === username) return res.status(404).json({messageError: 'Este nombre de usuario ya esta en uso'});
+         if (admin.email === email) return res.status(404).json({messageError: 'Este correo ya esta en uso'});
       }
       
       user = new Users({username, email, password});
@@ -46,18 +50,17 @@ const register = async (req, res) => {
 
       let img = user.imgPerfil ? user.imgPerfil.secure_url : null
 
-      return res.status(200).json({
+      return res.status(201).json({
          token,
          user: {
-            id: user._id,
             imgPerfil: img,
             rol: user.rol
          }
       });
 
    } catch (error) {
-      console.log(error.message);
-      return res.status(404).json({messageError: error.message});
+      // console.log(error.message);
+      return res.status(500).json({messageError: error.message});
    }
 }
 
@@ -67,9 +70,9 @@ const login = async (req, res) => {
    try {
       let user = await Users.findOne({email});
       // console.log('Aqui estoy')
-      if (!user) throw new Error('No existe este email');
+      if (!user) return res.status(404).json({messageError: 'No existe este email'});
 
-      if(!(await user.comparePassword(password))) throw new Error('La contraseña no es correcta');
+      if(!(await user.comparePassword(password))) return res.status(404).json({messageError: 'La contraseña no es correcta'});
       
       const token = jwt.sign({id: user._id}, process.env.SECRETTK, {
          expiresIn: '30m'
@@ -80,14 +83,13 @@ const login = async (req, res) => {
       return res.status(200).json({
          token,
          user: {
-            id: user._id,
             imgPerfil: img,
             favorites: user.favorites,
             rol: user.rol
          }
       });
    } catch (error) {
-      return res.status(404).json({messageError: error.message});
+      return res.status(500).json({messageError: error.message});
    }
 }
 

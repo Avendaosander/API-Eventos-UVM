@@ -8,50 +8,40 @@ const event = async (req, res) => {
    try {
       const {eventID} = req.params;
       const evento = await Eventos.findById(eventID).lean();
+      if(!evento) return res.status(404).json({messageError: 'Evento no encontrado'})
       // console.log(evento);
       return res.status(200).json({evento});
    } catch (error) {
       // console.log(error);
-      return res.status(404).json({messageError: error.message});
+      return res.status(500).json({messageError: error.message});
    }
 }
 
 // Valida los campos y devuelve el evento
 const createEvent = async (req, res) => {
    try {
-      if (!req.file) {
-         throw new Error ('Debes agregar una imagen del evento')
-      }
+      if (!req.file) return res.status(404).json({messageError: 'Debes agregar una imagen del evento'})
       const { path } = req.file;
       const { userID } = req.params
-      
-
-      let user = await Users.findById(userID).lean();
-      if (user.rol !== "Admin") {
-         await fs.unlink(path)
-         throw new Error('No tienes permiso para crear un evento');
-      }
 
       const { organizador, participantes, titulo, descripcion, keywords, tipo, facultad, categoria, fecha, hora, lugar } = req.body;
       let evento = await Eventos.findOne({ titulo });
       // console.log(evento);
-      if (evento) throw new Error('Ya existe este titulo de evento');
+      if (evento) return res.status(404).json({messageError: 'Ya existe este titulo de evento'});
 
-      // console.log('Entra aqui')
       evento = new Eventos({ organizador, participantes, titulo, descripcion, keywords, tipo, facultad, categoria, fecha, hora, lugar, createdBy: userID });
       // console.log(evento)
       if (path) {
          const result = await uploadImage(path)
          await fs.unlink(path)
          evento.imagen = {public_id: result.public_id, secure_url: result.secure_url}
-         // console.log(evento);
          console.log({addImage: true});
       }
       await evento.save()
       return res.status(200).json({evento});
    } catch (error) {
       // console.log(error.message);
-      return res.status(404).json({messageError: error.message});
+      return res.status(500).json({messageError: error.message});
    }
 }
 
@@ -80,7 +70,7 @@ const updateEvent = async (req, res) => {
       const evento = await Eventos.findByIdAndUpdate(eventID, update, {new: true})
       return res.status(200).json({evento})
    } catch (error) {
-      return res.status(404).json({messageError: error.message});
+      return res.status(500).json({messageError: error.message});
    }
 }
 
@@ -88,14 +78,13 @@ const updateEvent = async (req, res) => {
 const deleteEvent = async (req, res) => {
    try {
       const { eventID } = req.params;
-      const { userID } = req.body;
       const evento = await Eventos.findByIdAndDelete(eventID)
 
-      if (!evento) throw new Error('Este evento no existe')
+      if (!evento) return res.status(404).json({messageError: 'Este evento no existe'})
 
       await deleteImage(evento.imagen.public_id)
-      await Users.updateOne({ _id: userID }, {$pull: {favorites: {$in: [eventID]}}})
-      // await Users.updateOne({ _id: userID }, {$pull: {confirmEvent: {$in: [eventID]}}})
+      await Users.updateMany({}, {$pull: {favorites: {$in: [eventID]}}}, { multi: true })
+      await Users.updateMany({}, {$pull: {confirmEvent: {$in: [eventID]}}}, { multi: true })
 
       res.status(200).json({eliminado: true})
    } catch (error) {

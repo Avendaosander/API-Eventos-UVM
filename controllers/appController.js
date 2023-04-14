@@ -9,35 +9,51 @@ const horaActual = dayjs(new Date()).format('HH:mm')
 // console.log('Fecha:', fechaActual)
 // console.log('Hora:', horaActual)
 
+const obtenerProximos = () => {
+   const proximos = Eventos.find()
+      .gt('fecha', fechaActual)
+      .sort({fecha: 1})
+      .sort({hora: 1})
+      .limit(3)
+      .lean();
+
+   return proximos
+}
+const obtenerRecientes = () => {
+   const recientes = Eventos.find()
+      .lt('fecha', fechaActual)
+      .sort({fecha: -1})
+      .sort({hora: -1})
+      .limit(3)
+      .lean();
+
+   return recientes
+}
+const obtenerToday = () => {
+   const eventsToday = Eventos.find()
+      .in('fecha', fechaActual)
+      .gt('hora', horaActual)
+      .sort({fecha: 1})
+      .sort({hora: 1})
+      .limit(3)
+      .lean();
+
+   return eventsToday
+}
+
 // Trae 3 proximos eventos, los eventos para hoy (si es que hay), y los ultimos 3 eventos 
 const home = async (req, res) => {
    try {
-      const proximos = await Eventos.find()
-         .gt('fecha', fechaActual)
-         .sort({fecha: 1})
-         .sort({hora: 1})
-         .limit(3)
-         .lean();
+      let proximos = await obtenerProximos()
       // console.log(proximos);
-      const eventsToday = await Eventos.find()
-         .in('fecha', fechaActual)
-         .gt('hora', horaActual)
-         .sort({fecha: 1})
-         .sort({hora: 1})
-         .limit(3)
-         .lean();
-      // console.log(eventsToday);
-      const recientes = await Eventos.find()
-         .lt('fecha', fechaActual)
-         .sort({fecha: -1})
-         .sort({hora: -1})
-         .limit(3)
-         .lean();
+      let recientes = await obtenerRecientes()
       // console.log(recientes);
+      let eventsToday = await obtenerToday()
+      // console.log(eventsToday);
    
-      res.status(200).json({proximos, eventsToday, recientes})
+      return res.status(200).json({proximos, eventsToday, recientes})
    } catch (error) {
-      res.status(404).json({messageError: error.message})
+      return res.status(500).json({messageError: error.message})
    }
 }
 
@@ -50,9 +66,9 @@ const dashboard = async (req, res) => {
          .lean();
       
       // console.log(evento);
-      res.status(200).json({eventos})
+      return res.status(200).json({eventos})
    } catch (error) {
-      res.status(404).json({messageError: error.message})
+      return res.status(500).json({messageError: error.message})
    }
 }
 
@@ -62,9 +78,9 @@ const filterTo = async (req, res) => {
       const filter = req.body
       const eventos = await Eventos.find(filter).lean();
       // console.log(eventos);
-      res.status(200).json({eventos})
+      return res.status(200).json({eventos})
    } catch (error) {
-      res.status(404).json({messageError: error.message})
+      return res.status(500).json({messageError: error.message})
    }
 }
 
@@ -72,11 +88,15 @@ const filterTo = async (req, res) => {
 const misEventos = async (req, res) => {
    try {
       const { adminID } = req.params
-      const misEventos = await Eventos.find({ createdBy: adminID}).exec();
+
+      const user = await Users.findById(adminID).lean()
+      if(!user) return res.status(404).json({messageError: 'Administrador no encontrado'})
+
+      const misEventos = await Eventos.find({ createdBy: adminID}).exec()
       // consoole.log(misEventos)
-      res.status(200).json({misEventos})
+      return res.status(200).json({misEventos})
    } catch (error) {
-      res.status(404).json({messageError: error.message})
+      return res.status(500).json({messageError: error.message})
    }
 }
 
@@ -86,7 +106,14 @@ const toggleFavorites = async (req, res) => {
       const { eventID } = req.params
       const { userID } = req.body
       let fav = true
-      let user = await Users.updateOne({ _id: userID }, {$pull: {favorites: {$in: [eventID]}}})
+
+      const evento = await Eventos.findById(eventID).lean()
+      if (!evento) return res.status(404).json({messageError: 'Evento no encontrado'})
+
+      let user = await Users.findById(userID).lean()
+      if (!user) return res.status(404).json({messageError: 'Usuario no encontrado'})
+
+      user = await Users.updateOne({ _id: userID }, {$pull: {favorites: {$in: [eventID]}}})
    
       if (user.modifiedCount === 1){
          fav = false
@@ -100,7 +127,7 @@ const toggleFavorites = async (req, res) => {
          return res.status(200).json({fav})
       }
    } catch (error) {
-      res.status(404).json({messageError: error.message})
+      return res.status(500).json({messageError: error.message})
    }
 }
 
@@ -110,9 +137,9 @@ const favorites = async (req, res) => {
       const {userID} = req.params
       const user = await Users.findOne({_id: userID}).populate('favorites').lean();
       // console.log(user)
-      res.status(200).json({eventos: user.favorites})
+      return res.status(200).json({eventos: user.favorites})
    } catch (error) {
-      res.status(404).json({messageError: error.message})
+      return res.status(500).json({messageError: error.message})
    }
 }
 
@@ -121,10 +148,11 @@ const profile = async (req, res) => {
    try {
       const { userID } = req.params
       const user = await Users.findById(userID).lean();
+      if(!user) return res.status(404).json({messageError: 'Usuario no encontrado'})
       // console.log(user);
-      res.status(200).json({user})
+      return res.status(200).json({user})
    } catch (error) {
-      res.status(404).json({messageError: error.message})
+      return res.status(500).json({messageError: error.message})
    }
 }
 
@@ -138,9 +166,11 @@ const updateUser = async (req, res) => {
       }
       const {userID} = req.params
       const update = req.body
+
+      let user = await Users.findById(userID).lean()
+      if(!user) return res.status(404).json({messageError: 'Usuario no encontrado'})
       
       if (path !== undefined) {
-         let user = await Users.findById(userID)
          if(user.imgPerfil !== null) await deleteImage(user.imgPerfil.public_id)
          const result = await uploadImage(path)
          await fs.unlink(path)
@@ -150,11 +180,11 @@ const updateUser = async (req, res) => {
          return res.status(200).json({user})
       }
       
-      const user = await Users.findByIdAndUpdate(userID, update, {new: true}).lean();
+      user = await Users.findByIdAndUpdate(userID, update, {new: true}).lean();
       // console.log(user);
       return res.status(200).json({user})
    } catch (error) {
-      res.status(404).json({messageError: error.message})
+      return res.status(500).json({messageError: error.message})
    }
 }
 
