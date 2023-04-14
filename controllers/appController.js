@@ -75,8 +75,10 @@ const dashboard = async (req, res) => {
 // Trae todos los eventos que son iguales al filtro
 const filterTo = async (req, res) => {
    try {
-      const filter = req.body
-      const eventos = await Eventos.find(filter).lean();
+      const filter = req.body;
+      const propertie = Object.keys(filter)[0];
+      const value = filter[propertie];
+      const eventos = await Eventos.find({[propertie]: { $regex: new RegExp(value, 'i') }}).lean();
       // console.log(eventos);
       return res.status(200).json({eventos})
    } catch (error) {
@@ -135,7 +137,7 @@ const toggleFavorites = async (req, res) => {
 const favorites = async (req, res) => {
    try {
       const {userID} = req.params
-      const user = await Users.findOne({_id: userID}).populate('favorites').lean();
+      const user = await Users.findOne({_id: userID}).populate({path: 'favorites', select: 'imagen titulo fecha hora lugar'}).lean();
       // console.log(user)
       return res.status(200).json({eventos: user.favorites})
    } catch (error) {

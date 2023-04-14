@@ -62,10 +62,10 @@ const eventosSchema = new Schema({
       type: String,
       required: true
    },
-   asistencia: {
-      type: Array,
-      default: []
-   },
+   asistencia: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Users'
+   }],
    createdBy: {
       type: Schema.Types.ObjectId,
       ref: "Users",

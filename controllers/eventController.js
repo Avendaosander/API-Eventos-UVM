@@ -7,7 +7,7 @@ var fs = require('fs-extra');
 const event = async (req, res) => {
    try {
       const {eventID} = req.params;
-      const evento = await Eventos.findById(eventID).lean();
+      const evento = await Eventos.findOne({_id: eventID}).populate({path: 'asistencia', select: 'username imgPerfil'}).lean();
       if(!evento) return res.status(404).json({messageError: 'Evento no encontrado'})
       // console.log(evento);
       return res.status(200).json({evento});
