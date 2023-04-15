@@ -9,51 +9,63 @@ const horaActual = dayjs(new Date()).format('HH:mm')
 // console.log('Fecha:', fechaActual)
 // console.log('Hora:', horaActual)
 
-const obtenerProximos = () => {
-   const proximos = Eventos.find()
-      .gt('fecha', fechaActual)
-      .sort({fecha: 1})
-      .sort({hora: 1})
-      .limit(3)
-      .lean();
-
-   return proximos
+const obtenerProximos = async () => {
+   try {
+      const proximos = await Eventos.find()
+         .gt('fecha', fechaActual)
+         .sort({ fecha: 1 })
+         .sort({ hora: 1 })
+         .limit(3)
+         .lean();
+      return proximos;
+   } catch (error) {
+      throw new Error(error.message);
+   }
 }
-const obtenerRecientes = () => {
-   const recientes = Eventos.find()
-      .lt('fecha', fechaActual)
-      .sort({fecha: -1})
-      .sort({hora: -1})
-      .limit(3)
-      .lean();
-
-   return recientes
+const obtenerRecientes = async () => {
+   try {
+      const recientes = await Eventos.find()
+         .lt('fecha', fechaActual)
+         .sort({ fecha: -1 })
+         .sort({ hora: -1 })
+         .limit(3)
+         .lean();
+      return recientes;
+   } catch (error) {
+      throw new Error(error.message);
+   }
 }
-const obtenerToday = () => {
-   const eventsToday = Eventos.find()
-      .in('fecha', fechaActual)
-      .gt('hora', horaActual)
-      .sort({fecha: 1})
-      .sort({hora: 1})
-      .limit(3)
-      .lean();
-
-   return eventsToday
+const obtenerToday = async () => {
+   try {
+      const eventsToday = await Eventos.find()
+         .in('fecha', fechaActual)
+         .gt('hora', horaActual)
+         .sort({ fecha: 1 })
+         .sort({ hora: 1 })
+         .limit(3)
+         .lean();
+      return eventsToday;
+   } catch (error) {
+      throw new Error(error.message);
+   }
 }
 
 // Trae 3 proximos eventos, los eventos para hoy (si es que hay), y los ultimos 3 eventos 
 const home = async (req, res) => {
    try {
-      let proximos = await obtenerProximos()
-      // console.log(proximos);
-      let recientes = await obtenerRecientes()
-      // console.log(recientes);
-      let eventsToday = await obtenerToday()
-      // console.log(eventsToday);
-   
-      return res.status(200).json({proximos, eventsToday, recientes})
+      const [proximos, recientes, eventsToday] = await Promise.allSettled([
+         obtenerProximos(),
+         obtenerRecientes(),
+         obtenerToday()
+      ]).then(results =>
+         results
+            .filter(result => result.status === 'fulfilled')
+            .map(result => result.value)
+      )
+      res.status(200).json({ proximos, recientes, eventsToday });
+      
    } catch (error) {
-      return res.status(500).json({messageError: error.message})
+      res.status(500).json({ messageError: error.message });
    }
 }
 
