@@ -1,5 +1,5 @@
 const express = require('express');
-const { dashboard, misEventos, profile, favorites, home, toggleFavorites, updateUser, filterTo } = require('../controllers/appController')
+const { dashboard, misEventos, profile, favorites, home, toggleFavorites, updateUser, filterTo, oldEvents } = require('../controllers/appController')
 const { upload } = require('../controllers/uploadController');
 const router = express.Router()
 
@@ -8,6 +8,9 @@ router.get('/dashboard', home)
 
 // Trae todos los eventos proximos
 router.get('/events', dashboard)
+
+// Trae todos los eventos recientes
+router.get('/old-events', oldEvents)
 
 // Trae todos los eventos que coincidan con un solo filtro
 router.post('/filters', filterTo)
