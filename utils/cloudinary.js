@@ -12,18 +12,31 @@ const options = {
    use_filename: true,
    unique_filename: false,
    overwrite: true,
-   folder: 'Eventos UVM'
+};
+ 
+const eventsFolder = 'Eventos UVM-Events';
+const profilesFolder = 'Eventos UVM-Profile';
+ 
+const uploadImage = async (imagePath, folder) => {
+   const optionsWithFolder = { ...options, folder };
+   return await cloudinary.uploader.upload(imagePath, optionsWithFolder);
 };
 
-const uploadImage = async (imagePath) => {
-   return await cloudinary.uploader.upload(imagePath, options);
-}
+const uploadImageEvent = async (imagePath) => {
+   return await uploadImage(imagePath, eventsFolder);
+};
+
+const uploadImageProfile = async (imagePath) => {
+   return await uploadImage(imagePath, profilesFolder);
+};
+ 
 
 const deleteImage = async (public_id) => {
    return await cloudinary.uploader.destroy(public_id);
 }
 
 module.exports = {
-   uploadImage,
+   uploadImageEvent,
+   uploadImageProfile,
    deleteImage
 };

@@ -1,7 +1,7 @@
 const Users = require('../models/Users')
 const Eventos = require('../models/Eventos')
 const dayjs = require('dayjs')
-const { uploadImage, deleteImage } = require('../utils/cloudinary');
+const { deleteImage, uploadImageProfile } = require('../utils/cloudinary');
 var fs = require('fs-extra');
 
 const fechaActual = dayjs(new Date()).format('YYYY-MM-DD')
@@ -186,7 +186,7 @@ const updateUser = async (req, res) => {
       
       if (path !== undefined) {
          if(user.imgPerfil !== null) await deleteImage(user.imgPerfil.public_id)
-         const result = await uploadImage(path)
+         const result = await uploadImageProfile(path)
          await fs.unlink(path)
          update.imgPerfil = {public_id: result.public_id, secure_url: result.secure_url}
          user = await Users.findByIdAndUpdate(userID, update, {new: true}).lean()

@@ -1,6 +1,6 @@
 const Users = require('../models/Users')
 const Eventos = require('../models/Eventos')
-const { uploadImage, deleteImage } = require('../utils/cloudinary');
+const { deleteImage, uploadImageEvent } = require('../utils/cloudinary');
 var fs = require('fs-extra');
 
 // Trae un evento por ID
@@ -66,10 +66,9 @@ const createEvent = async (req, res) => {
       evento = new Eventos({ organizador, participantes, titulo, descripcion, keywords, tipo, facultad, categoria, fecha, hora, lugar, createdBy: userID });
       // console.log(evento)
       if (path) {
-         const result = await uploadImage(path)
+         const result = await uploadImageEvent(path)
          await fs.unlink(path)
          evento.imagen = {public_id: result.public_id, secure_url: result.secure_url}
-         console.log({addImage: true});
       }
       await evento.save()
       return res.status(200).json({evento});
@@ -94,7 +93,7 @@ const updateEvent = async (req, res) => {
       if (path !== undefined) {
          let evento = await Eventos.findById(eventID)
          await deleteImage(evento.imagen.public_id)
-         const result = await uploadImage(path)
+         const result = await uploadImageEvent(path)
          await fs.unlink(path)
          update.imagen = {public_id: result.public_id, secure_url: result.secure_url}
          evento = await Eventos.findByIdAndUpdate(eventID, update, {new: true})
