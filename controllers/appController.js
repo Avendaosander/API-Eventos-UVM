@@ -84,6 +84,22 @@ const dashboard = async (req, res) => {
    }
 }
 
+// Trae todos los eventos anteriores a la fecha actual
+const oldEvents = async (req, res) => {
+   try {
+      const oldEvents = await Eventos.find()
+         .lt('fecha', fechaActual)
+         .sort({ fecha: -1 })
+         .sort({ hora: -1 })
+         .lean();
+      
+      // console.log(evento);
+      return res.status(200).json({oldEvents})
+   } catch (error) {
+      return res.status(500).json({messageError: error.message})
+   }
+}
+
 // Trae todos los eventos que son iguales al filtro
 const filterTo = async (req, res) => {
    try {
@@ -205,6 +221,7 @@ const updateUser = async (req, res) => {
 module.exports = {
    home,
    dashboard,
+   oldEvents,
    filterTo,
    toggleFavorites,
    favorites,
