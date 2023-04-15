@@ -1,9 +1,16 @@
+const { existsSync, mkdirSync } = require('fs-extra');
 const multer = require('multer');
 const path = require('path');
 
 // Valida que envie un archivo y administra su nombre y destino
 const storage = multer.diskStorage({
-   destination: path.join(__dirname, '../uploadsImages'),
+   destination: (req, file, cb) => {
+      const folderPath = path.join(__dirname, '../uploadsImages');
+      if (!existsSync(folderPath)) {
+         mkdirSync(folderPath);
+      }
+      cb(null, folderPath);
+   },
    filename: (req, file, cb) => {
       try {
          if (!file.originalname) {
