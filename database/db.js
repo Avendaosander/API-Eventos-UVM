@@ -15,7 +15,7 @@ mongoose.set('strictQuery', false)
 
 mongoose.connect(process.env.URI) 
    .then(async()=> {
-      const admin = await Users.find({email: process.env.EMAIL_ADMIN}).lean();
+      const admin = await Users.find({email: process.env.ADMIN_EMAIL}).lean();
       const categorias = await Categorias.find().limit(1).lean();
       const facultades = await Facultades.find().limit(1).lean();
       const typeEvents = await TypeEvents.find().limit(1).lean();
@@ -38,7 +38,7 @@ mongoose.connect(process.env.URI)
       }
       if (typeEvents.length === 0) {
          addTypeEvent();
-         console.log('Tiipos de Eventos Agregados')
+         console.log('Tipos de Eventos Agregados')
       }
       console.log('DB Conectada🚀')
    })
