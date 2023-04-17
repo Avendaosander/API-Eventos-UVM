@@ -72,13 +72,43 @@ const home = async (req, res) => {
 // Trae todos los eventos proximos a la fecha actual
 const dashboard = async (req, res) => {
    try {
-      const eventos = await Eventos.find()
+      // Obtener la página actual y el número de elementos por página
+      const paginaActual = req.query.page || 1;
+      const paginador = 9;
+
+      // Calcular el índice del primer elemento en la página actual
+      const startIndex = (paginaActual - 1) * paginador;
+
+      // Buscar los eventos y paginarlos
+      Eventos.find()
          .gt('fecha', fechaActual)
          .sort({fecha: 1})
-         .lean();
+         .skip(startIndex)
+         .limit(paginador)
+         .then((eventos) => {
+            
+            // Calcular el número total de páginas
+            Eventos.countDocuments()
+               .gt('fecha', fechaActual)
+               .then((count) => {
+                  const totalPages = Math.ceil(count / paginador)
+
+                  // Devolver los eventos y la información de paginación
+                  return res.status(200).json({
+                     eventos,
+                     paginaActual,
+                     totalPages,
+                     totalEventos: count
+                  })
+               })
+               .catch((error) => {
+                  return res.status(404).json({message: error.message})
+               });
+         })
+         .catch((error) => {
+            return res.status(404).json({message: error.message})
+         });
       
-      // console.log(evento);
-      return res.status(200).json({eventos})
    } catch (error) {
       return res.status(500).json({messageError: error.message})
    }
@@ -87,14 +117,44 @@ const dashboard = async (req, res) => {
 // Trae todos los eventos anteriores a la fecha actual
 const oldEvents = async (req, res) => {
    try {
-      const oldEvents = await Eventos.find()
+      // Obtener la página actual y el número de elementos por página
+      const paginaActual = req.query.page || 1;
+      const paginador = 9;
+
+      // Calcular el índice del primer elemento en la página actual
+      const startIndex = (paginaActual - 1) * paginador;
+
+      // Buscar los eventos y paginarlos
+      Eventos.find()
          .lt('fecha', fechaActual)
-         .sort({ fecha: -1 })
+         .sort({fecha: -1 })
          .sort({ hora: -1 })
-         .lean();
+         .skip(startIndex)
+         .limit(paginador)
+         .then((eventos) => {
+            
+            // Calcular el número total de páginas
+            Eventos.countDocuments()
+               .lt('fecha', fechaActual)
+               .then((count) => {
+                  const totalPages = Math.ceil(count / paginador)
+
+                  // Devolver los eventos y la información de paginación
+                  return res.status(200).json({
+                     eventos,
+                     paginaActual,
+                     totalPages,
+                     totalEventos: count
+                  })
+               })
+               .catch((error) => {
+                  return res.status(404).json({message: error.message})
+               });
+         })
+         .catch((error) => {
+            return res.status(404).json({message: error.message})
+         });
       
-      // console.log(evento);
-      return res.status(200).json({oldEvents})
    } catch (error) {
       return res.status(500).json({messageError: error.message})
    }
@@ -106,9 +166,42 @@ const filterTo = async (req, res) => {
       const filter = req.body;
       const propertie = Object.keys(filter)[0];
       const value = filter[propertie];
-      const eventos = await Eventos.find({[propertie]: { $regex: new RegExp(value, 'i') }}).lean();
-      // console.log(eventos);
-      return res.status(200).json({eventos})
+
+      // Obtener la página actual y el número de elementos por página
+      const paginaActual = req.query.page || 1;
+      const paginador = 9;
+
+      // Calcular el índice del primer elemento en la página actual
+      const startIndex = (paginaActual - 1) * paginador;
+
+      // Buscar los eventos y paginarlos
+      Eventos.find({[propertie]: { $regex: new RegExp(value, 'i') }})
+         .sort({fecha: 1})
+         .skip(startIndex)
+         .limit(paginador)
+         .then((eventos) => {
+            
+            // Calcular el número total de páginas
+            Eventos.countDocuments()
+               .then((count) => {
+                  const totalPages = Math.ceil(count / paginador)
+
+                  // Devolver los eventos y la información de paginación
+                  return res.status(200).json({
+                     eventos,
+                     paginaActual,
+                     totalPages,
+                     totalEventos: count
+                  })
+               })
+               .catch((error) => {
+                  return res.status(404).json({message: error.message})
+               });
+         })
+         .catch((error) => {
+            return res.status(404).json({message: error.message})
+         });
+
    } catch (error) {
       return res.status(500).json({messageError: error.message})
    }
