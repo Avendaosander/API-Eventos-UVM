@@ -21,7 +21,7 @@ const registerAdmin = async (req, res) => {
       // console.log(admin);
       await admin.save();
 
-      return res.status(201).json({creado: true});
+      return res.status(201).send();
 
    } catch (error) {
       // console.log(error.message);
@@ -48,12 +48,9 @@ const register = async (req, res) => {
          expiresIn: '30m'
       })
 
-      let img = user.imgPerfil ? user.imgPerfil.secure_url : null
-
       return res.status(201).json({
          token,
          user: {
-            imgPerfil: img,
             rol: user.rol
          }
       });
@@ -83,6 +80,7 @@ const login = async (req, res) => {
       return res.status(200).json({
          token,
          user: {
+            username: user.username,
             imgPerfil: img,
             favorites: user.favorites,
             rol: user.rol
@@ -93,15 +91,8 @@ const login = async (req, res) => {
    }
 }
 
-// Cierra la session
-const logout = (req, res) => {
-   const verificado = false;
-   res.status(200).json({verificado})
-}
-
 module.exports = {
    login,
    registerAdmin,
-   register,
-   logout
+   register
 };

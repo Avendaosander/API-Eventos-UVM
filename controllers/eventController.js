@@ -7,7 +7,7 @@ var fs = require('fs-extra');
 const event = async (req, res) => {
    try {
       const {eventID} = req.params;
-      const evento = await Eventos.findOne({_id: eventID}).populate({path: 'asistencia', select: 'username imgPerfil'}).lean();
+      const evento = await Eventos.findOne({_id: eventID}, {__v:0}).populate({path: 'asistencia', select: 'username imgPerfil'}).lean();
       if(!evento) return res.status(404).json({messageError: 'Evento no encontrado'})
       // console.log(evento);
       return res.status(200).json({evento});
@@ -22,7 +22,6 @@ const toggleAsist = async (req, res) => {
    try {
       const { userID } = req.params;
       const { eventID } = req.body;
-      let asist = true
 
       let evento = await Eventos.findById(eventID).lean()
       if (!evento) return res.status(404).json({messageError: 'Evento no encontrado'})
@@ -34,16 +33,16 @@ const toggleAsist = async (req, res) => {
       evento = await Eventos.updateOne({ _id: eventID }, {$pull: {asistencia: {$in: [userID]}}})
    
       if (user.modifiedCount === 1 && evento.modifiedCount === 1){
-         asist = false
+         let evento = await Eventos.findById(eventID).populate({path: 'asistencia', select: 'username imgPerfil'}).lean()
          // console.log("Se rechazo asistencia al evento")
-         return res.status(200).json({asist})
+         return res.status(200).json({asistencia: evento.asistencia})
       }
    
       if (user.modifiedCount !== 1 && evento.modifiedCount !== 1){
          user = await Users.updateOne({ _id: userID }, {$push: {confirmEvent: eventID}})
-         evento = await Eventos.updateOne({ _id: eventID }, {$push: {asistencia: userID}})
+         evento = await Eventos.findByIdAndUpdate(eventID, {$push: {asistencia: userID}}, {new: true}).populate({path: 'asistencia', select: 'username imgPerfil'}).lean()
          // console.log("Se confirmo asistencia al evento")
-         return res.status(200).json({asist})
+         return res.status(200).json({asistencia: evento.asistencia})
       }
       throw new Error()
    } catch (error) {
@@ -71,7 +70,7 @@ const createEvent = async (req, res) => {
          evento.imagen = {public_id: result.public_id, secure_url: result.secure_url}
       }
       await evento.save()
-      return res.status(200).json({evento});
+      return res.status(200).json({evento: evento._id});
    } catch (error) {
       // console.log(error.message);
       return res.status(500).json({messageError: error.message});
@@ -98,10 +97,10 @@ const updateEvent = async (req, res) => {
          update.imagen = {public_id: result.public_id, secure_url: result.secure_url}
          evento = await Eventos.findByIdAndUpdate(eventID, update, {new: true})
          // console.log(evento);
-         return res.status(200).json({evento})
+         return res.status(200).json({evento: evento._id})
       }
       const evento = await Eventos.findByIdAndUpdate(eventID, update, {new: true})
-      return res.status(200).json({evento})
+      return res.status(200).json({evento: evento._id})
    } catch (error) {
       return res.status(500).json({messageError: error.message});
    }
@@ -119,7 +118,7 @@ const deleteEvent = async (req, res) => {
       await Users.updateMany({}, {$pull: {favorites: {$in: [eventID]}}}, { multi: true })
       await Users.updateMany({}, {$pull: {confirmEvent: {$in: [eventID]}}}, { multi: true })
 
-      res.status(200).json({eliminado: true})
+      return res.status(204).send()
    } catch (error) {
       return res.status(404).json({messageError: error.message});
    }

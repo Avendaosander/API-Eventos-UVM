@@ -11,7 +11,7 @@ const horaActual = dayjs(new Date()).format('HH:mm')
 
 const obtenerProximos = async () => {
    try {
-      const proximos = await Eventos.find()
+      const proximos = await Eventos.find({},{_id: 1, titulo: 1, imagen: 1, fecha: 1, hora: 1, lugar: 1})
          .gt('fecha', fechaActual)
          .sort({ fecha: 1 })
          .sort({ hora: 1 })
@@ -24,7 +24,7 @@ const obtenerProximos = async () => {
 }
 const obtenerRecientes = async () => {
    try {
-      const recientes = await Eventos.find()
+      const recientes = await Eventos.find({},{_id: 1, titulo: 1, imagen: 1, fecha: 1, hora: 1, lugar: 1})
          .lt('fecha', fechaActual)
          .sort({ fecha: -1 })
          .sort({ hora: -1 })
@@ -37,7 +37,7 @@ const obtenerRecientes = async () => {
 }
 const obtenerToday = async () => {
    try {
-      const eventsToday = await Eventos.find()
+      const eventsToday = await Eventos.find({},{_id: 1, titulo: 1, imagen: 1, fecha: 1, hora: 1, lugar: 1})
          .in('fecha', fechaActual)
          .gt('hora', horaActual)
          .sort({ fecha: 1 })
@@ -80,7 +80,7 @@ const dashboard = async (req, res) => {
       const startIndex = (paginaActual - 1) * paginador;
 
       // Buscar los eventos y paginarlos
-      Eventos.find()
+      Eventos.find({},{_id: 1, titulo: 1, imagen: 1, fecha: 1, hora: 1, lugar: 1})
          .gt('fecha', fechaActual)
          .sort({fecha: 1})
          .skip(startIndex)
@@ -97,8 +97,7 @@ const dashboard = async (req, res) => {
                   return res.status(200).json({
                      eventos,
                      paginaActual,
-                     totalPages,
-                     totalEventos: count
+                     totalPages
                   })
                })
                .catch((error) => {
@@ -125,7 +124,7 @@ const oldEvents = async (req, res) => {
       const startIndex = (paginaActual - 1) * paginador;
 
       // Buscar los eventos y paginarlos
-      Eventos.find()
+      Eventos.find({},{_id: 1, titulo: 1, imagen: 1, fecha: 1, hora: 1, lugar: 1})
          .lt('fecha', fechaActual)
          .sort({fecha: -1 })
          .sort({ hora: -1 })
@@ -143,8 +142,7 @@ const oldEvents = async (req, res) => {
                   return res.status(200).json({
                      eventos,
                      paginaActual,
-                     totalPages,
-                     totalEventos: count
+                     totalPages
                   })
                })
                .catch((error) => {
@@ -175,14 +173,14 @@ const filterTo = async (req, res) => {
       const startIndex = (paginaActual - 1) * paginador;
 
       // Buscar los eventos y paginarlos
-      Eventos.find({[propertie]: { $regex: new RegExp(value, 'i') }})
+      Eventos.find({[propertie]: { $regex: new RegExp(value, 'i') }}, {_id: 1, titulo: 1, imagen: 1, fecha: 1, hora: 1, lugar: 1})
          .sort({fecha: 1})
          .skip(startIndex)
          .limit(paginador)
          .then((eventos) => {
             
             // Calcular el número total de páginas
-            Eventos.countDocuments()
+            Eventos.countDocuments({[propertie]: { $regex: new RegExp(value, 'i') }})
                .then((count) => {
                   const totalPages = Math.ceil(count / paginador)
 
@@ -190,8 +188,7 @@ const filterTo = async (req, res) => {
                   return res.status(200).json({
                      eventos,
                      paginaActual,
-                     totalPages,
-                     totalEventos: count
+                     totalPages
                   })
                })
                .catch((error) => {
@@ -215,7 +212,7 @@ const misEventos = async (req, res) => {
       const user = await Users.findById(adminID).lean()
       if(!user) return res.status(404).json({messageError: 'Administrador no encontrado'})
 
-      const misEventos = await Eventos.find({ createdBy: adminID}).exec()
+      const misEventos = await Eventos.find({ createdBy: adminID}, {_id: 1, titulo: 1, imagen: 1, fecha: 1, hora: 1, lugar: 1, createdBy: 1}).lean()
       // consoole.log(misEventos)
       return res.status(200).json({misEventos})
    } catch (error) {
@@ -270,7 +267,7 @@ const favorites = async (req, res) => {
 const profile = async (req, res) => {
    try {
       const { userID } = req.params
-      const user = await Users.findById(userID).lean();
+      const user = await Users.findById(userID, {_id: 0, __v: 0}).lean();
       if(!user) return res.status(404).json({messageError: 'Usuario no encontrado'})
       // console.log(user);
       return res.status(200).json({user})
@@ -300,12 +297,12 @@ const updateUser = async (req, res) => {
          update.imgPerfil = {public_id: result.public_id, secure_url: result.secure_url}
          user = await Users.findByIdAndUpdate(userID, update, {new: true}).lean()
          // console.log(user);
-         return res.status(200).json({user})
+         return res.status(200).send()
       }
       
       user = await Users.findByIdAndUpdate(userID, update, {new: true}).lean();
       // console.log(user);
-      return res.status(200).json({user})
+      return res.status(200).send()
    } catch (error) {
       return res.status(500).json({messageError: error.message})
    }
