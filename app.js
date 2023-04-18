@@ -24,7 +24,13 @@ const swaggerSpec = {
       openapi: "3.0.0",
       info: {
          title: "API Eventos UVM Documentación",
-         version: "1.0.0"
+         description: "Esta es la Documentación Oficial de la API de Eventos UVM",
+         contact: {
+            name: "Developer Support",
+            url: "https://github.com/Avendaosander/API-Eventos-UVM#ejecutando-las-pruebas-%EF%B8%8F",
+            email: "avendano.ramirez@gmail.com"
+         },
+         version: "2.0.0"
       },
       servers: [
          {
