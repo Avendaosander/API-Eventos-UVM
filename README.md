@@ -45,7 +45,9 @@
 
 ## **Instalación** 🔧
 ***
-Abrir la terminal en la ruta raiz del proyecto y ejecutar el siguiente comando:
+Debe crear un archivo `.env` en la ruta raiz del proyecto `/`. El contenido de este archivo `.env` se encuentra en el notion del proyecto.
+***
+Una vez creado el archivo `.env`, abrir la terminal en la ruta raiz del proyecto y ejecutar el siguiente comando:
 ```
 npm install
 ```
